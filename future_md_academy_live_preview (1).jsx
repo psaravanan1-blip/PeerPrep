@@ -1,1019 +1,1251 @@
-import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
-import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Star,
-  Brain,
-  LineChart,
-  Clock,
-  GraduationCap,
-  CheckCircle2,
-  ShieldCheck,
-  BookOpen,
-  Users2,
-  Mail,
-  Phone,
-  Globe,
-  Sparkles,
-  HeartHandshake,
-  Award,
-  Rocket,
-  Menu,
-  X,
-  Quote,
-} from "lucide-react";
-import { DollarSign, Plus, Minus, AlertTriangle } from "lucide-react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FutureMD Academy – Premium MCAT Tutoring</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050816;
+      --card: #0b1020;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.2);
+      --accent-strong: rgba(56, 189, 248, 0.85);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2933;
+      --danger: #f97373;
+      --radius-lg: 18px;
+      --radius-xl: 22px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 40px rgba(56, 189, 248, 0.35);
+    }
 
-// ========= Config =========
-const FORM_ENDPOINT = "https://formspree.io/f/your-id"; // replace with your form endpoint
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Inter", sans-serif;
+    }
 
-// ========= UI primitives =========
-const Section = ({ id, children, className = "" }) => (
-  <section id={id} className={`scroll-mt-24 py-20 ${className}`}>
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      {children}
-    </motion.div>
-  </section>
-);
+    body {
+      background: radial-gradient(circle at top, #0b1220 0, #020617 55%, #000 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
 
-const Container = ({ children, className = "" }) => (
-  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 ${className}`}>{children}</div>
-);
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
 
-const Pill = ({ children }) => (
-  <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-white backdrop-blur">
-    {children}
-  </span>
-);
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 16px;
+    }
 
-const Stat = ({ value, label }) => (
-  <div className="rounded-2xl bg-white/80 p-6 text-center shadow-sm ring-1 ring-black/5">
-    <div className="text-3xl font-extrabold text-slate-900">{value}</div>
-    <div className="mt-1 text-sm text-slate-600">{label}</div>
-  </div>
-);
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-const FeatureCard = ({ icon: Icon, title, children }) => (
-  <motion.div
-    className="group rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 transition hover:shadow-md"
-    initial={{ opacity: 0, y: 14 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.2 }}
-    transition={{ duration: 0.45, ease: "easeOut" }}
-  >
-    <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--navy)]">
-      <Icon className="h-6 w-6" />
-    </div>
-    <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-    <p className="mt-2 text-slate-600">{children}</p>
-  </motion.div>
-);
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #38bdf8 0, #0ea5e9 40%, #1e293b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5f9ff;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: var(--shadow-glow);
+    }
 
-const HowStep = ({ step, title, children }) => (
-  <motion.div
-    className="relative rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
-    initial={{ opacity: 0, y: 14 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.2 }}
-    transition={{ duration: 0.45, ease: "easeOut" }}
-  >
-    <div className="absolute -top-4 left-6 rounded-full bg-[var(--gold)] px-3 py-1 text-xs font-bold text-[var(--navy)]">
-      STEP {step}
-    </div>
-    <h4 className="mt-2 text-base font-semibold text-slate-900">{title}</h4>
-    <p className="mt-2 text-slate-600">{children}</p>
-  </motion.div>
-);
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 18px;
+    }
 
-const TestimonialCard = ({ quote, name, role, compact = false }) => (
-  <motion.div
-    className={`rounded-2xl bg-white ${compact ? "p-4" : "p-6"} shadow-sm ring-1 ring-black/5`}
-    initial={{ opacity: 0, y: 12 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.2 }}
-    transition={{ duration: 0.4, ease: "easeOut" }}
-  >
-    <p className="text-slate-700">“{quote}”</p>
-    <div className="mt-4 flex items-center gap-3">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--navy)]/10 font-bold text-[var(--navy)]">
-        {name?.charAt(0) || ""}
+    .logo-text-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 6px 12px;
+      border: 1px solid var(--accent-soft);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.3));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.7fr);
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+
+    .hero-card {
+      border-radius: var(--radius-xl);
+      padding: 22px 22px 20px;
+      background: linear-gradient(
+        145deg,
+        rgba(15, 23, 42, 0.95),
+        rgba(15, 23, 42, 0.85),
+        rgba(15, 23, 42, 0.95)
+      );
+      border: 1px solid rgba(55, 65, 81, 0.7);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      line-height: 1.1;
+      font-weight: 750;
+      margin-bottom: 10px;
+    }
+
+    .hero-title span.accent {
+      background: linear-gradient(120deg, #38bdf8, #a855f7);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .hero-list {
+      list-style: none;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #cbd5f5;
+    }
+
+    .hero-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .hero-list-bullet {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #020617;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: var(--shadow-glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ghost {
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary span.arrow {
+      font-size: 14px;
+      transform: translateY(0.5px);
+    }
+
+    .hero-cred {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-cred strong {
+      color: #e5e7eb;
+    }
+
+    .hero-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-badge {
+      border-radius: 999px;
+      padding: 6px 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-badge-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 9px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero-side-card {
+      border-radius: var(--radius-xl);
+      padding: 16px 16px 14px;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.22), transparent 60%),
+        linear-gradient(145deg, #020617, #020617, #020617);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      box-shadow: var(--shadow-soft), var(--shadow-glow);
+      position: relative;
+    }
+
+    .hero-side-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hero-side-label span.value {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .hero-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .hero-stat {
+      border-radius: 14px;
+      padding: 10px 10px 8px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.95);
+      font-size: 11px;
+    }
+
+    .hero-stat-label {
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .hero-stat-value {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .hero-stat-tag {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .slider-block {
+      border-radius: 16px;
+      padding: 12px 12px 10px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .slider-row label {
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    input[type="range"] {
+      flex-grow: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-strong), rgba(148, 163, 184, 0.4));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #f9fafb;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #f9fafb;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+      cursor: pointer;
+    }
+
+    .slider-values {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .slider-current {
+      margin-top: 10px;
+      font-size: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+      gap: 8px;
+      align-items: center;
+    }
+
+    .slider-price {
+      font-size: 20px;
+      font-weight: 750;
+    }
+
+    .slider-pill {
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: rgba(56, 189, 248, 0.18);
+      color: #e0f2fe;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      justify-content: center;
+    }
+
+    .slider-fineprint {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .trust-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .trust-avatars {
+      display: inline-flex;
+    }
+
+    .avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #fbbf24 0, #f97316 40%, #451a03 100%);
+      border: 1px solid rgba(15, 23, 42, 0.8);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+
+    .avatar:nth-child(2) {
+      margin-left: -8px;
+      background: radial-gradient(circle at 30% 0, #38bdf8 0, #0ea5e9 40%, #0b1120 100%);
+    }
+
+    .avatar:nth-child(3) {
+      margin-left: -8px;
+      background: radial-gradient(circle at 30% 0, #a855f7 0, #7e22ce 40%, #1e1b4b 100%);
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 360px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .feature-card {
+      border-radius: var(--radius-lg);
+      padding: 12px 12px 10px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      font-size: 12px;
+    }
+
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feature-title span.icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.35);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .feature-body {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .testimonial-card {
+      border-radius: var(--radius-lg);
+      padding: 12px 12px 10px;
+      background: linear-gradient(145deg, #020617, #020617 55%, #020617);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+      position: relative;
+      font-size: 12px;
+    }
+
+    .quote-mark {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 20px;
+      color: rgba(148, 163, 184, 0.6);
+    }
+
+    .testimonial-score {
+      font-size: 11px;
+      color: #a5b4fc;
+      margin-bottom: 4px;
+    }
+
+    .testimonial-body {
+      color: var(--text);
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+
+    .testimonial-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .testimonial-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #22c55e 0, #16a34a 40%, #052e16 100%);
+      border: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .plan-card {
+      border-radius: var(--radius-lg);
+      padding: 14px 12px 11px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-size: 12px;
+      position: relative;
+    }
+
+    .plan-card.featured {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-soft), var(--shadow-glow);
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.15), transparent 55%),
+        rgba(15, 23, 42, 0.95);
+    }
+
+    .plan-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+    }
+
+    .plan-name {
+      font-weight: 650;
+      margin-bottom: 2px;
+    }
+
+    .plan-price {
+      font-size: 18px;
+      font-weight: 750;
+      margin-bottom: 4px;
+    }
+
+    .plan-caption {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .plan-list {
+      list-style: none;
+      margin-bottom: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .plan-list li {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .plan-check {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .plan-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      font-size: 11px;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+
+    .plan-tag {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(251, 191, 36, 0.16);
+      color: #fde68a;
+      border: 1px solid rgba(251, 191, 36, 0.6);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1.7fr;
+      gap: 16px;
+    }
+
+    .faq-note {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .faq-note strong {
+      color: #e5e7eb;
+    }
+
+    .faq-list {
+      font-size: 12px;
+    }
+
+    .faq-item {
+      border-radius: 12px;
+      padding: 10px 10px 8px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      margin-bottom: 8px;
+    }
+
+    .faq-q {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .faq-a {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-side-card {
+        order: -1;
+      }
+      .features-grid,
+      .testimonials-grid,
+      .plans-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding-inline: 14px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .features-grid,
+      .testimonials-grid,
+      .plans-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .faq-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">F</div>
+        <div>
+          <div class="logo-text-main">FutureMD Academy</div>
+          <div class="logo-text-sub">High-yield, 1:1 MCAT mastery</div>
+        </div>
       </div>
-      <div>
-        <div className="font-semibold text-slate-900">{name}</div>
-        <div className="text-sm text-slate-600">{role}</div>
+      <div class="header-right">
+        <div class="pill">
+          <span class="badge-dot"></span>
+          <span>Now enrolling for the next MCAT cycle</span>
+        </div>
       </div>
-    </div>
-  </motion.div>
-);
+    </header>
 
-const FAQItem = ({ q, a }) => (
-  <details className="group rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
-    <summary className="cursor-pointer list-none">
-      <div className="flex items-start justify-between gap-6">
-        <h4 className="text-base font-semibold text-slate-900">{q}</h4>
-        <span className="mt-1 rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:hidden">
-          +
-        </span>
-        <span className="mt-1 hidden rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:inline">
-          –
-        </span>
-      </div>
-    </summary>
-    <p className="mt-3 text-slate-600">{a}</p>
-  </details>
-);
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-card">
+        <div class="hero-eyebrow">MCAT TUTORING THAT ACTUALLY MOVES YOUR SCORE</div>
+        <h1 class="hero-title">
+          1:1 coaching from
+          <span class="accent">519+ scorers</span> so you don’t waste a single hour.
+        </h1>
+        <p class="hero-subtitle">
+          We built the program we wish we had: personalized, accountable, and brutally
+          honest. No 500-page “strategy” book. Just a clear plan, expert feedback, and reps on
+          the exact skills that raise your score.
+        </p>
 
-// ========= Pricing helpers =========
-function formatUSD(n) {
-  return n.toLocaleString(undefined, { style: "currency", currency: "USD" });
-}
-function getSmoothRate(hours) {
-  if (hours <= 9) return 195;
-  if (hours <= 19) return 195 - ((hours - 10) * (195 - 185)) / (19 - 10); // 195 → 185
-  if (hours <= 40) return 180 - ((hours - 20) * (180 - 160)) / (40 - 20); // 180 → 160
-  if (hours <= 80) return 160 - ((hours - 40) * (160 - 150)) / (80 - 40); // 160 → 150
-  if (hours <= 120) return 150 - ((hours - 80) * (150 - 145)) / (120 - 80); // 150 → 145
-  return 145;
-}
-function getDiscount(hours) {
-  if (hours < 20) return 0;
-  if (hours <= 40) return 600 - 10 * (hours - 20); // 600 → 400
-  return 400; // 40h+
-}
-function LineItem({ label, value, bold = false, accent }) {
-  const color =
-    accent === "emerald" ? "text-emerald-600" : value < 0 ? "text-emerald-600" : "";
-  return (
-    <div className="flex items-center justify-between text-sm">
-      <span className="text-neutral-700">{label}</span>
-      <span className={`${bold ? "font-semibold" : ""} ${color}`}>
-        {value < 0 ? "-" + formatUSD(Math.abs(value)) : formatUSD(value)}
-      </span>
-    </div>
-  );
-}
-function RadioRow({ label, caption, right, selected, onSelect }) {
-  return (
-    <button
-      onClick={onSelect}
-      className={`flex w-full items-center justify-between rounded-xl border p-3 text-left transition ${
-        selected
-          ? "border-fuchsia-300 bg-fuchsia-50 ring-1 ring-fuchsia-200"
-          : "border-neutral-200 hover:bg-neutral-50"
-      }`}
-    >
-      <div>
-        <div className="text-sm font-medium">{label}</div>
-        {caption && <div className="text-xs text-neutral-500">{caption}</div>}
-      </div>
-      <div className="text-sm font-semibold">{right}</div>
-    </button>
-  );
-}
+        <ul class="hero-list">
+          <li>
+            <div class="hero-list-bullet">✓</div>
+            <span>Work directly with tutors who scored 519+ and attend/attended top medical schools.</span>
+          </li>
+          <li>
+            <div class="hero-list-bullet">✓</div>
+            <span>Custom study plan built around your test date, schedule, and baseline score.</span>
+          </li>
+          <li>
+            <div class="hero-list-bullet">✓</div>
+            <span>Evidence-based reading + reasoning training so you stop “running out of time.”</span>
+          </li>
+        </ul>
 
-// ========= Testimonials data + carousel component =========
-const TESTIMONIALS = [
-  {
-    quote:
-      "I came in scoring just above 500 and honestly thought medical school was out of reach. My tutor built a study plan that didn’t overwhelm me and checked in weekly to make sure I was sticking with it. I started seeing progress in small steps, which made me believe I could really improve. By test day, I had climbed 13 points and felt proud instead of anxious walking into the exam.",
-    name: "Riya P.",
-    role: "Accepted to UA COM",
-  },
-  {
-    quote:
-      "My B/B plateau broke after two sessions with a 132 scorer who showed me how to read passages like a scientist.",
-    name: "Jason M.",
-    role: "520 official",
-  },
-  {
-    quote:
-      "I finally had a plan I could follow with school. The weekly check-ins kept me consistent.",
-    name: "Amrita K.",
-    role: "+12 point increase",
-  },
-  {
-    quote: "+14 points in 6 weeks. Custom passages and error logs made the difference.",
-    name: "Lauren S.",
-    role: "NYU applicant",
-  },
-  {
-    quote: "C/P clicked once we switched to a data-first approach. I hit 131 on my next FL.",
-    name: "Marcus D.",
-    role: "131 C/P",
-  },
-  {
-    quote: "I always felt stuck at 508. Pacing + reasoning drills took me to a 519 official.",
-    name: "Sofia H.",
-    role: "519 official",
-  },
-  {
-    quote:
-      "Tutor matched me by personality and schedule. Studying finally felt sustainable and my stress dropped.",
-    name: "Neha L.",
-    role: "+11 point jump",
-  },
-  {
-    quote:
-      "The passage-mapping method for B/B was a game changer. I stopped rereading and started answering with confidence.",
-    name: "Caleb W.",
-    role: "131 B/B",
-  },
-  {
-    quote: "Their weekly accountability texts kept me honest. Hit my 515 goal a month early.",
-    name: "Janelle T.",
-    role: "515 official",
-  },
-];
-
-function TestimonialsCarousel() {
-  const [idx, setIdx] = useState(0);
-  const perSlide = 3;
-  const totalSlides = Math.ceil(TESTIMONIALS.length / perSlide);
-
-  const slideTo = (n) => {
-    setIdx((prev) => {
-      const next = (n + totalSlides) % totalSlides;
-      // ignore prev because we always use explicit n
-      return next;
-    });
-  };
-
-  const safeIdx = ((idx % totalSlides) + totalSlides) % totalSlides;
-
-  return (
-    <div className="mt-10">
-      <div className="relative overflow-hidden">
-        <motion.div
-          className="flex"
-          animate={{ x: `-${(safeIdx * 100) / totalSlides}%` }}
-          transition={{ type: "tween", ease: "easeInOut", duration: 0.45 }}
-          style={{ width: `${100 * totalSlides}%` }}
-        >
-          {Array.from({ length: totalSlides }).map((_, slide) => (
-            <div
-              key={slide}
-              className="grid shrink-0 grid-cols-1 gap-6 px-2 md:grid-cols-3"
-              style={{ width: `${100 / totalSlides}%` }}
-            >
-              {TESTIMONIALS.slice(slide * perSlide, slide * perSlide + perSlide).map(
-                (t, i) => (
-                  <TestimonialCard
-                    key={`${slide}-${i}`}
-                    quote={t.quote}
-                    name={t.name}
-                    role={t.role}
-                    compact
-                  />
-                )
-              )}
-            </div>
-          ))}
-        </motion.div>
-
-        <div className="mt-6 flex items-center justify-between">
-          <div className="flex gap-2">
-            <button
-              onClick={() => slideTo(safeIdx - 1)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-sm hover:bg-slate-50"
-              aria-label="Previous"
-            >
-              ‹
-            </button>
-            <button
-              onClick={() => slideTo(safeIdx + 1)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-sm hover:bg-slate-50"
-              aria-label="Next"
-            >
-              ›
-            </button>
+        <div class="hero-cta-row">
+          <button class="btn-primary" onclick="scrollToForm()">
+            Apply for a strategy call
+            <span class="arrow">→</span>
+          </button>
+          <button class="btn-ghost" onclick="document.getElementById('testimonials').scrollIntoView({behavior:'smooth'})">
+            See student score jumps
+          </button>
+        </div>
+        <div class="hero-cred">
+          <strong>Built by students, for future physicians.</strong> Two 519+ scorers &amp; a USC-trained
+          business strategist, focused on one thing: your score.
+        </div>
+        <div class="hero-badge-row">
+          <div class="hero-badge">
+            <div class="hero-badge-icon">★</div>
+            <span>Average score increase: +10–14 points</span>
           </div>
-
-          <div className="flex items-center gap-2">
-            {Array.from({ length: totalSlides }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => slideTo(i)}
-                className={`h-2.5 w-6 rounded-full transition ${
-                  i === safeIdx ? "bg-[var(--navy)]" : "bg-slate-300"
-                }`}
-                aria-label={`Go to slide ${i + 1}`}
-              />
-            ))}
+          <div class="hero-badge">
+            <div class="hero-badge-icon">⏱</div>
+            <span>Limited spots · true 1:1, not a call center</span>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
 
-// ========= Page =========
-export default function FutureMDAcademySite() {
-  const [open, setOpen] = useState(false);
-  const [hours, setHours] = useState(15);
-  const [installments, setInstallments] = useState(null);
+      <!-- PRICING / SLIDER CARD -->
+      <div class="hero-side-card" id="pricing-card">
+        <div class="hero-side-label">
+          <span>Investment overview</span>
+          <span class="value"><span id="hoursLabel">20</span> guided hours</span>
+        </div>
 
-  const rate = getSmoothRate(hours);
-  const subtotal = hours * rate;
-  const discount = getDiscount(hours);
-  const total = Math.max(0, subtotal - discount);
-
-  useEffect(() => {
-    try {
-      const approxEq = (a, b, tol = 1e-9) => Math.abs(a - b) < tol;
-      console.assert(getSmoothRate(0) === 195, "rate(0)=195");
-      console.assert(getSmoothRate(9) === 195, "rate(9)=195");
-      console.assert(approxEq(getSmoothRate(10), 195), "rate(10)=195");
-      console.assert(approxEq(getSmoothRate(19), 185), "rate(19)=~185");
-      console.assert(approxEq(getSmoothRate(20), 180), "rate(20)=~180");
-      console.assert(approxEq(getSmoothRate(40), 160), "rate(40)=~160");
-      console.assert(approxEq(getSmoothRate(80), 150), "rate(80)=~150");
-      console.assert(approxEq(getSmoothRate(120), 145), "rate(120)=~145");
-      console.assert(getDiscount(0) === 0, "disc(0)=0");
-      console.assert(getDiscount(19) === 0, "disc(19)=0");
-      console.assert(getDiscount(20) === 600, "disc(20)=600");
-      console.assert(getDiscount(40) === 400, "disc(40)=400");
-      console.assert(getDiscount(80) === 400, "disc(80)=400");
-      console.assert(Math.max(0, 0 - getDiscount(100)) === 0, "total clamped >= 0");
-      console.assert(getSmoothRate(21) <= getSmoothRate(20), "rate non-increasing around 20");
-    } catch (e) {
-      console.warn("Test failure:", e);
-    }
-  }, []);
-
-  return (
-    <div className="min-h-screen scroll-smooth bg-[var(--light)] [--navy:#0b2a3c] [--gold:#e0b84d]">
-      {/* SEO */}
-      <Helmet>
-        <title>Future MD Academy — MCAT Tutoring</title>
-        <meta
-          name="description"
-          content="Top 5% tutors. Top 1% section specialists. Personalized MCAT tutoring with a +10 point improvement guarantee."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Future MD Academy — MCAT Tutoring" />
-        <meta
-          property="og:description"
-          content="Crush the MCAT with personalized coaching designed around you."
-        />
-        <meta property="og:type" content="website" />
-      </Helmet>
-
-      {/* Top bar */}
-      <div className="sticky top-0 z-40 w-full border-b border-white/10 bg-[var(--navy)]/90 backdrop-blur">
-        <Container className="flex items-center justify-between py-4">
-          <a href="#home" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[var(--navy)]">
-              <GraduationCap className="h-6 w-6" />
-            </div>
-            <div className="text-white">
-              <div className="text-sm uppercase tracking-wider text-white/70">
-                Future MD Academy
-              </div>
-              <div className="-mt-1 text-lg font-extrabold">MCAT Tutoring</div>
-            </div>
-          </a>
-
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-6 text-sm text-white/90 md:flex">
-            <a href="#services" className="hover:text-white">
-              Services
-            </a>
-            <a href="#how" className="hover:text-white">
-              How it Works
-            </a>
-            <a href="#guarantee" className="hover:text-white">
-              Guarantee
-            </a>
-            <a href="#pricing" className="hover:text-white">
-              Pricing
-            </a>
-            <a href="#faq" className="hover:text-white">
-              FAQ
-            </a>
-            <a
-              href="#contact"
-              className="rounded-xl bg-[var(--gold)] px-4 py-2 font-semibold text-[var(--navy)] hover:opacity-90"
-            >
-              Free Consultation
-            </a>
-          </nav>
-
-          {/* Mobile menu */}
-          <button
-            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 text-white"
-            aria-label="Toggle menu"
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </Container>
-        {open && (
-          <div className="md:hidden border-t border-white/10 bg-[var(--navy)]/95">
-            <Container className="py-3">
-              <div className="flex flex-col gap-2 text-white/90">
-                <a href="#services" onClick={() => setOpen(false)} className="py-2">
-                  Services
-                </a>
-                <a href="#how" onClick={() => setOpen(false)} className="py-2">
-                  How it Works
-                </a>
-                <a href="#guarantee" onClick={() => setOpen(false)} className="py-2">
-                  Guarantee
-                </a>
-                <a href="#pricing" onClick={() => setOpen(false)} className="py-2">
-                  Pricing
-                </a>
-                <a href="#faq" onClick={() => setOpen(false)} className="py-2">
-                  FAQ
-                </a>
-                <a
-                  href="#contact"
-                  onClick={() => setOpen(false)}
-                  className="mt-2 inline-flex items-center justify-center rounded-xl bg-[var(--gold)] px-4 py-2 font-semibold text-[var(--navy)]"
-                >
-                  Free Consultation
-                </a>
-              </div>
-            </Container>
-          </div>
-        )}
-      </div>
-
-      {/* Hero */}
-      <Section id="home" className="relative overflow-hidden bg-[var(--navy)]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(80rem_40rem_at_50%_-10%,rgba(255,255,255,0.18),transparent)]" />
-        <Container>
-          <div className="grid items-center gap-12 py-6 md:grid-cols-2">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Pill>
-                <Sparkles className="h-4 w-4" />
-                Top 5% Tutors • Top 1% Section Specialists • +10 Points Guaranteed
-              </Pill>
-              <h1 className="mt-6 text-4xl font-extrabold leading-tight text-white sm:text-5xl">
-                Crush the MCAT with personalized coaching designed around{" "}
-                <span className="text-[var(--gold)]">you</span>
-              </h1>
-              <p className="mt-4 text-lg leading-relaxed text-white/80">
-                One-on-one tutoring with specialists for C/P, CARS, B/B, and P/S, custom study plans,
-                and test-taking systems built by 100th percentile scorers.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-[var(--gold)] px-5 py-3 font-semibold text-[var(--navy)] shadow-sm hover:opacity-90"
-                >
-                  Get Your FREE Consultation
-                  <ArrowRight className="h-5 w-5" />
-                </a>
-                <a
-                  href="#services"
-                  className="inline-flex items-center gap-2 rounded-2xl border border-white/20 px-5 py-3 font-semibold text-white hover:bg-white/10"
-                >
-                  Explore Our Programs
-                </a>
-              </div>
-              <div className="mt-8 grid max-w-xl grid-cols-3 gap-4">
-                <Stat value={<span className="text-[var(--gold)]">518+</span>} label="Tutor composite scores" />
-                <Stat value={<span className="text-[var(--gold)]">131/132</span>} label="Section subscores" />
-                <Stat value={<span className="text-[var(--gold)]">+10</span>} label="Point Guarantee" />
-              </div>
-            </motion.div>
-
-            {/* Student Score Trend card */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <div className="relative rounded-3xl bg-white/10 p-2 shadow-2xl ring-1 ring-white/20">
-                <div className="rounded-2xl bg-white p-6 text-[var(--navy)]">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--navy)]/10 text-[var(--gold)]">
-                        <svg viewBox="0 0 40 40" className="h-7 w-7">
-                          <polyline
-                            points="4,28 14,22 22,24 30,16 36,14"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                      <div className="text-lg font-semibold text-slate-900">Student Score Trend</div>
-                    </div>
-                    <div className="flex items-center gap-1 text-[var(--gold)]">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star key={i} className="h-5 w-5 fill-current" />
-                      ))}
-                    </div>
-                  </div>
-                  <div className="mt-6 grid items-stretch gap-6 md:grid-cols-[1fr_auto_1fr]">
-                    <div className="rounded-2xl bg-slate-50 p-6 text-center ring-1 ring-slate-200">
-                      <div className="text-5xl font-extrabold text-[var(--gold)]">516.3</div>
-                      <div className="mt-3 text-lg font-medium text-slate-900">
-                        <span className="inline-block rounded-sm bg-[var(--gold)]/80 px-1 text-[var(--navy)]">
-                          Average
-                        </span>
-                        <span className="ml-2">Student Score</span>
-                      </div>
-                    </div>
-                    <div className="hidden h-auto w-px bg-slate-200 md:block" />
-                    <div className="rounded-2xl bg-slate-50 p-6 text-center ring-1 ring-slate-200">
-                      <div className="text-5xl font-extrabold text-[var(--gold)]">14.1</div>
-                      <div className="mt-3 text-lg font-medium text-slate-900">
-                        <span className="inline-block rounded-sm bg-[var(--gold)]/80 px-1 text-[var(--navy)]">
-                          Average
-                        </span>
-                        <span className="ml-2">Score Increase</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Trust strip */}
-      <div className="border-y bg-white">
-        <Container>
-          <div className="flex flex-wrap items-center justify-center gap-6 py-6 text-slate-500">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5" /> Guaranteed Score Growth
-            </div>
-            <div className="flex items-center gap-2">
-              <Award className="h-5 w-5" /> Top 5% Tutors
-            </div>
-            <div className="flex items-center gap-2">
-              <Rocket className="h-5 w-5" /> Fast Score Momentum
-            </div>
-            <div className="flex items-center gap-2">
-              <HeartHandshake className="h-5 w-5" /> Compatibility Match
+        <div class="hero-stat-grid">
+          <div class="hero-stat">
+            <div class="hero-stat-label">Current package</div>
+            <div class="hero-stat-value" id="priceDisplay">$3,000</div>
+            <div class="hero-stat-tag">
+              <span id="hourlyDisplay">$150</span>/hour · 1:1
             </div>
           </div>
-        </Container>
-      </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">Typical gain</div>
+            <div class="hero-stat-value">+10–14</div>
+            <div class="hero-stat-tag">Scaled score points</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-label">Seat availability</div>
+            <div class="hero-stat-value">Limited</div>
+            <div class="hero-stat-tag">We cap total students</div>
+          </div>
+        </div>
 
-      {/* Services */}
-      <Section id="services">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold text-slate-900">
-              Not all MCAT prep is created equal. Here's why serious students choose us.
-            </h2>
-            <p className="mt-3 text-slate-600">
-              Expert-led MCAT prep with proven results and personalized coaching designed around your
-              unique needs
-            </p>
+        <div class="slider-block">
+          <div><strong>Design your package.</strong> Slide to pick the number of hours you want.</div>
+          <div class="slider-row">
+            <label for="hoursRange">Coaching hours</label>
+            <input
+              type="range"
+              id="hoursRange"
+              min="10"
+              max="40"
+              step="5"
+              value="20"
+              oninput="updatePricing(this.value)"
+            />
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <FeatureCard icon={Brain} title="Top 1% Section Specialists">
-              Tutors with ≥518 overall and 131/132 in their specialized section. Get expert guidance in
-              C/P, CARS, B/B, and P/S from those who've mastered each domain.
-            </FeatureCard>
-            <FeatureCard icon={LineChart} title="Compatibility-Based Matching">
-              We match you with a tutor based on compatibility and comprehensive strength/weakness
-              analysis to ensure the best learning experience.
-            </FeatureCard>
-            <FeatureCard icon={Clock} title="Study Schedules by 100th Percentile Scorers">
-              Custom study plans and strategies created by 100th percentile scorers, designed around
-              your timeline and goals.
-            </FeatureCard>
-            <FeatureCard icon={Clock} title="Flexible Scheduling">
-              Evenings, weekends, and accelerated plans available. Regular check-ins in between
-              sessions to maintain consistency.
-            </FeatureCard>
-            <FeatureCard icon={Users2} title="10% Hours Refunded After 20 Hours">
-              If you don't see a +10 point increase after 20 hours of tutoring, we'll refund 10% of your
-              hours. We stand behind our results.
-            </FeatureCard>
-            <FeatureCard icon={BookOpen} title="Personalized Content Review">
-              Focused content review tailored to your specific knowledge gaps and learning style, not
-              generic one-size-fits-all approaches.
-            </FeatureCard>
+          <div class="slider-values">
+            <span>10 hrs</span>
+            <span>20 hrs</span>
+            <span>30 hrs</span>
+            <span>40 hrs</span>
           </div>
-        </Container>
-      </Section>
 
-      {/* How it works */}
-      <Section id="how" className="bg-white">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold text-slate-900">How it works</h2>
-            <p className="mt-3 text-slate-600">Simple, transparent, effective.</p>
-          </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            <HowStep step={1} title="Free Consultation">
-              Share your target schools, test date, and constraints. We identify your quickest win
-              conditions.
-            </HowStep>
-            <HowStep step={2} title="Match with a Specialist">
-              We pair you with a tutor whose strengths and teaching style complement your needs.
-            </HowStep>
-            <HowStep step={3} title="Custom Plan + Coaching">
-              Follow a week-by-week schedule. Meet regularly to refine timing, reasoning, and endurance.
-            </HowStep>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Guarantee */}
-      <Section id="guarantee" className="bg-[var(--navy)] text-white">
-        <Container>
-          <div className="grid items-center gap-10 md:grid-cols-2">
+          <div class="slider-current">
             <div>
-              <h2 className="text-3xl font-extrabold">+10 Points Guaranteed</h2>
-              <p className="mt-4 text-white/80">
-                Complete 20 hours of tutoring and follow your custom plan. If you don't gain at least 10
-                points from your verified baseline, we'll refund 10% of your hours.
+              <div class="slider-price" id="sliderPrice">$3,000</div>
+              <div class="slider-fineprint">
+                Billed in full. Flexible payment plans available on request.
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div class="slider-pill">
+                <span>3k at 20 hrs · 6k at 40 hrs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-avatars">
+            <div class="avatar"></div>
+            <div class="avatar"></div>
+            <div class="avatar"></div>
+          </div>
+          <div>
+            <strong>Dozens of students</strong> guided from “stuck at 500s” to competitive MD scores.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">What makes FutureMD different?</h2>
+        <p class="section-subtitle">
+          You don’t need more content. You need structure, feedback, and someone who knows exactly
+          what’s holding your score back — and how to fix it efficiently.
+        </p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-title">
+            <span class="icon">🎯</span>
+            Targeted, not generic
+          </div>
+          <p class="feature-body">
+            Every student gets a baseline analysis, custom schedule, and weekly score tracker. We
+            only assign work that moves specific sections — no filler.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-title">
+            <span class="icon">🧠</span>
+            High-yield CARS & passages
+          </div>
+          <p class="feature-body">
+            We break CARS and science passages into small, repeatable skills: mapping arguments,
+            anticipating traps, and managing time under pressure.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-title">
+            <span class="icon">📈</span>
+            Real accountability
+          </div>
+          <p class="feature-body">
+            Weekly check-ins, mandatory review templates, and shared spreadsheets so you and your
+            tutor see exactly where every point is coming from.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section" id="testimonials">
+      <div class="section-header">
+        <h2 class="section-title">Student results</h2>
+        <p class="section-subtitle">
+          We’re not promising magic. We’re promising a plan, honest feedback, and work that actually
+          converts into points. Here’s what recent students say.
+        </p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="quote-mark">“</div>
+          <div class="testimonial-score">510 → 521 · 11-point jump</div>
+          <div class="testimonial-body">
+            “Before this, I kept scoring 509–510 no matter what I tried. Within 6 weeks we rebuilt my
+            CARS approach and tightened my review. My final AAMC full-length was a 521.”
+          </div>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar"></div>
+            <div>
+              <div><strong>Riya S.</strong> · MD applicant</div>
+              <div>Accepted to multiple top-25 programs</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="quote-mark">“</div>
+          <div class="testimonial-score">499 → 510 · first-gen student</div>
+          <div class="testimonial-body">
+            “I felt completely lost after my diagnostic. They broke everything into small, doable
+            tasks and stayed on me when I slacked. I ended up with a 510 — enough to be competitive
+            at my in-state MD programs.”
+          </div>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar"></div>
+            <div>
+              <div><strong>Daniel K.</strong> · First-gen premed</div>
+              <div>Full-time student & part-time worker</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="quote-mark">“</div>
+          <div class="testimonial-score">512 → 520 · retaker</div>
+          <div class="testimonial-body">
+            “As a retaker, I didn’t need content — I needed strategy. They dissected my AAMC exams,
+            showed me my patterns, and built sessions around only those weaknesses.”
+          </div>
+          <div class="testimonial-footer">
+            <div class="testimonial-avatar"></div>
+            <div>
+              <div><strong>Michelle L.</strong> · Non-traditional student</div>
+              <div>Started med school with confidence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANS / PACKAGES -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Choose the level of support you want</h2>
+        <p class="section-subtitle">
+          All programs are 1:1, live on Zoom, and include custom planning + structured review
+          templates. Slide the calculator above to preview your total cost.
+        </p>
+      </div>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-label">Starter</div>
+          <div class="plan-name">Strategy Sprint</div>
+          <div class="plan-price">10 hrs</div>
+          <div class="plan-caption">
+            For self-motivated students who want expert direction and a sharp plan.
+          </div>
+          <ul class="plan-list">
+            <li>
+              <div class="plan-check">✓</div>
+              <span>Diagnostic breakdown + custom 8-week plan</span>
+            </li>
+            <li>
+              <div class="plan-check">✓</div>
+              <span>10 hours of live 1:1 coaching</span>
+            </li>
+            <li>
+              <div class="plan-check">✓</div>
+              <span>Study schedule + score tracking sheet</span>
+            </li>
+          </ul>
+          <button class="plan-cta" onclick="scrollToForm()">
+            Apply for Starter
+          </button>
+        </div>
+
+        <div class="plan-card featured">
+          <div class="plan-label">Recommended</div>
+          <div class="plan-name">Score Builder</div>
+          <div class="plan-price">20 hrs</div>
+          <div class="plan-caption">
+            Our most popular option — enough time to rebuild strategy and fix key weak spots.
+          </div>
+          <ul class="plan-list">
+            <li>
+              <div class="plan-check">✓</div>
+              <span>Everything in Starter, plus</span>
+            </li>
+            <li>
+              <div class="plan-check">✓</div>
+              <span>Deep-dive CARS + passage strategy</span>
+            </li>
+            <li>
+              <div class="plan-check">✓</div>
+              <span>AAMC exam review built into sessions</span>
+            </li>
+          </ul>
+          <button class="plan-cta" onclick="scrollToForm()">
+            Apply for Score Builder
+          </button>
+          <div class="plan-tag">Best balance</div>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-label">Max Support</div>
+          <div class="plan-name">Full Cycle Mentorship</div>
+          <div class="plan-price">30–40 hrs</div>
+          <div class="plan-caption">
+            For students who want someone in their corner from diagnostic to test day.
+          </div>
+          <ul class="plan-list">
+            <li>
+              <div class="plan-check">✓</div>
+              <span>Ongoing plan adjustments & check-ins</span>
+            </li>
+            <li>
+              <div class="plan-check">✓</div>
+              <span>Full exam review + pattern analysis</span>
+            </li>
+            <li>
+              <div class="plan-check">✓</div>
+              <span>Priority scheduling with your tutor</span>
+            </li>
+          </ul>
+          <button class="plan-cta" onclick="scrollToForm()">
+            Join the waitlist
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMPLE "APPLY" SECTION (FAKE FORM FOR NOW) -->
+    <section class="section" id="apply">
+      <div class="section-header">
+        <h2 class="section-title">Apply for a free 20-minute strategy call</h2>
+        <p class="section-subtitle">
+          This isn’t a sales webinar. We’ll look at your current scores, timeline, and constraints,
+          then tell you honestly if we can help — and how many hours you actually need.
+        </p>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-note">
+          <strong>What happens on the call?</strong>
+          <ul style="margin-top:4px; padding-left:18px; list-style: disc;">
+            <li>We walk through your current practice scores and schedule.</li>
+            <li>We map out a realistic test date and weekly gameplan.</li>
+            <li>We recommend an hour range (10–40) based on your situation.</li>
+          </ul>
+          <p style="margin-top:8px;">
+            If it’s not a fit, we’ll tell you exactly what we’d do on our own in your shoes.
+          </p>
+        </div>
+        <div class="faq-list">
+          <!-- You can replace this with a real form (Formspree, Tally, Typeform, Google Form, etc.) -->
+          <div class="faq-item">
+            <div class="faq-q">Quick interest form</div>
+            <div class="faq-a">
+              <p style="margin-bottom:6px;">
+                For now, email us with the subject line <strong>“MCAT Strategy Call”</strong>:
               </p>
-              <ul className="mt-6 space-y-2 text-white/90">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-1 h-5 w-5 text-[var(--gold)]" /> Eligibility reviewed
-                  during your consult
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-1 h-5 w-5 text-[var(--gold)]" /> Applies to official AAMC
-                  full-length scaled scores
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-1 h-5 w-5 text-[var(--gold)]" /> Transparent terms, no fine
-                  print surprises
-                </li>
+              <p style="margin-bottom:6px;">
+                <a href="mailto:hello@futuremdacademy.com">hello@futuremdacademy.com</a>
+              </p>
+              <p style="margin-bottom:4px;">Include:</p>
+              <ul style="padding-left:18px; list-style: disc;">
+                <li>Your target test date</li>
+                <li>Diagnostic / full-length scores so far</li>
+                <li>A short note about what you’re struggling with most</li>
               </ul>
             </div>
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="rounded-3xl bg-white/10 p-2 ring-1 ring-white/20">
-                <div className="rounded-2xl bg-white p-8 text-[var(--navy)]">
-                  <Quote className="mb-4 h-8 w-8 text-[var(--gold)] opacity-70" />
-                  <p className="text-lg leading-8">
-                    Working with students at Future MD Academy, I’ve seen how much of a difference a
-                    structured, personalized plan makes. When students know they’re not studying alone and
-                    have someone guiding the process, their confidence—and scores—move fast.
-                  </p>
-                  <div className="mt-6 font-semibold">Teri Johnson</div>
-                </div>
-              </div>
-            </motion.div>
           </div>
-        </Container>
-      </Section>
-
-      {/* Pricing */}
-      <Section id="pricing" className="bg-white">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold text-slate-900">Build your plan</h2>
-            <p className="mt-3 text-slate-600">
-              Slide to choose hours. Pricing adjusts automatically. Pay in full or split into
-              installments.
-            </p>
-          </div>
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <motion.div
-              layout
-              className="lg:col-span-2 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
-            >
-              <div className="mt-2 rounded-xl border border-neutral-200 p-4">
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="h-4 w-4 text-neutral-400" />
-                    <p className="text-sm font-medium">Select Your Tutoring Hours</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => setHours((h) => Math.max(0, h - 1))}
-                      className="rounded-full border border-neutral-200 p-1 hover:bg-neutral-50"
-                      aria-label="decrease hours"
-                    >
-                      <Minus className="h-4 w-4" />
-                    </button>
-                    <div className="min-w-10 text-center text-lg font-semibold">{hours}</div>
-                    <button
-                      onClick={() => setHours((h) => Math.min(120, h + 1))}
-                      className="rounded-full border border-neutral-200 p-1 hover:bg-neutral-50"
-                      aria-label="increase hours"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={120}
-                  step={1}
-                  value={hours}
-                  onChange={(e) => setHours(parseInt(e.target.value, 10))}
-                  className="w-full accent-[var(--gold)]"
-                />
-                <div className="mt-4 grid grid-cols-3 items-end gap-4">
-                  <div>
-                    <div className="text-xs text-neutral-500">Hours</div>
-                    <div className="text-lg font-semibold">{hours}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-neutral-500">Rate/hr</div>
-                    <div className="text-lg font-semibold">{formatUSD(rate)}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-neutral-500">Total</div>
-                    <div className="text-lg font-semibold">{formatUSD(total)}</div>
-                  </div>
-                </div>
-                <div className="mt-3 text-xs text-neutral-600">
-                  <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700 ring-1 ring-amber-200">
-                    <AlertTriangle className="h-3.5 w-3.5" /> Limited-time: secure these rates while
-                    seats last.
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-            <motion.div
-              layout
-              className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
-            >
-              <h3 className="text-lg font-semibold">Your Program</h3>
-              <div className="mt-4 space-y-3">
-                <LineItem
-                  label={`Tutoring – ${hours} hr${hours === 1 ? "" : "s"} @ ${formatUSD(rate)}/hr`}
-                  value={subtotal}
-                />
-                {discount > 0 && (
-                  <LineItem label="Bundle Discount" value={-discount} accent="emerald" />
-                )}
-                <div className="my-2 border-t" />
-                <LineItem label="Total" value={total} bold />
-              </div>
-              <div className="mt-6">
-                <h4 className="mb-2 text-sm font-semibold text-neutral-700">Payment Options</h4>
-                <div className="space-y-2">
-                  <RadioRow
-                    label="One-time payment"
-                    caption="Pay in full today"
-                    selected={installments === null}
-                    onSelect={() => setInstallments(null)}
-                    right={formatUSD(total)}
-                  />
-                  {[2, 3, 4, 5, 6].map((n) => (
-                    <RadioRow
-                      key={n}
-                      label={`${n} installments`}
-                      caption={`${n} monthly payments`}
-                      selected={installments === n}
-                      onSelect={() => setInstallments(n)}
-                      right={`${formatUSD(total / n)}/mo`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <a
-                href="#contact"
-                className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-[var(--navy)] px-4 py-3 font-semibold text-white shadow-sm hover:opacity-90"
-              >
-                Start now — lock in {hours} hours
-              </a>
-              <p className="mt-3 text-center text-xs text-neutral-500">
-                No interest. No hidden fees. You can edit your plan anytime.
-              </p>
-            </motion.div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Testimonials */}
-      <Section id="testimonials" className="bg-[var(--light)]">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold text-slate-900">Student wins</h2>
-            <p className="mt-3 text-slate-600">Real outcomes from tailored coaching.</p>
-          </div>
-          <TestimonialsCarousel />
-        </Container>
-      </Section>
-
-      {/* FAQ */}
-      <Section id="faq" className="bg-white">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold text-slate-900">FAQ</h2>
-            <p className="mt-3 text-slate-600">Quick answers to common questions.</p>
-          </div>
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
-            <FAQItem
-              q="Who are the tutors?"
-              a="All coaches are top 5% scorers (≥518) with demonstrated section expertise (131/132). We match you based on strengths and teaching style."
-            />
-            <FAQItem
-              q="Do you offer online sessions?"
-              a="Yes. We tutor via Zoom/Google Meet with shared whiteboarding and recorded notes when requested."
-            />
-            <FAQItem
-              q="What materials do you use?"
-              a="AAMC resources first, paired with high-yield third-party practice tailored to your needs."
-            />
-            <FAQItem
-              q="How does the guarantee work?"
-              a="With 20 hours completed and adherence to your plan, we guarantee a +10 point increase from your verified baseline or refund 10% of your hours."
-            />
-          </div>
-        </Container>
-      </Section>
-
-      {/* Contact */}
-      <Section id="contact" className="bg-[var(--light)]">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold text-slate-900">Book your free consultation</h2>
-            <p className="mt-3 text-slate-600">
-              Tell us your target date and goals. We’ll reply within 24 hours with next steps and
-              available times.
-            </p>
-          </div>
-          <div className="mx-auto mt-10 grid max-w-4xl gap-6 md:grid-cols-2">
-            <form
-              method="POST"
-              action={FORM_ENDPOINT}
-              className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
-            >
-              <div className="grid gap-4">
-                <input
-                  required
-                  name="name"
-                  placeholder="Full name"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
-                />
-                <input
-                  required
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
-                />
-                <input
-                  name="phone"
-                  placeholder="Phone (optional)"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
-                />
-                <input
-                  name="test_date"
-                  placeholder="Target MCAT date (e.g., June 28, 2026)"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
-                />
-                <textarea
-                  required
-                  name="message"
-                  rows={5}
-                  placeholder="Tell us about your goals and biggest hurdles"
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3 font-semibold text-white hover:opacity-90"
-                >
-                  Request Consultation <ArrowRight className="h-5 w-5" />
-                </button>
-              </div>
-              <p className="mt-3 text-xs text-slate-500">
-                By submitting, you agree to be contacted about scheduling and services. No spam ever.
-              </p>
-            </form>
-            <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
-              <div className="space-y-4 text-slate-700">
-                <div className="flex items-start gap-3">
-                  <Mail className="mt-0.5 h-5 w-5 text-[var(--navy)]" />
-                  <div>
-                    <div className="text-sm font-semibold text-slate-900">Email</div>
-                    <a
-                      href="mailto:hello@futuremdacademy.org"
-                      className="text-[var(--navy)] hover:underline"
-                    >
-                      hello@futuremdacademy.org
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Phone className="mt-0.5 h-5 w-5 text-[var(--navy)]" />
-                  <div>
-                    <div className="text-sm font-semibold text-slate-900">Phone</div>
-                    <a href="tel:123456789" className="text-[var(--navy)] hover:underline">
-                      (123) 456-789
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Globe className="mt-0.5 h-5 w-5 text-[var(--navy)]" />
-                  <div>
-                    <div className="text-sm font-semibold text-slate-900">Website</div>
-                    <a
-                      href="https://FutureMDAcademy.org"
-                      className="text-[var(--navy)] hover:underline"
-                    >
-                      FutureMDAcademy.org
-                    </a>
-                  </div>
-                </div>
-                <div className="rounded-xl bg-[var(--navy)]/5 p-4 text-sm">
-                  Prefer email? Send your availability and target score to{" "}
-                  <span className="font-semibold">hello@futuremdacademy.org</span> and we’ll set it up.
-                </div>
-              </div>
-              <div className="mt-6 rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
-                Optional: embed your flyer or QR here.
-              </div>
+          <div class="faq-item">
+            <div class="faq-q">Do you offer payment plans?</div>
+            <div class="faq-a">
+              Yes — we can split payments for 20+ hour programs. Mention this on your call and we’ll
+              walk through options.
             </div>
           </div>
-        </Container>
-      </Section>
-
-      {/* Footer */}
-      <footer className="border-t bg-white">
-        <Container className="grid gap-8 py-10 md:grid-cols-4">
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--navy)] text-white">
-                <GraduationCap className="h-6 w-6" />
-              </div>
-              <div className="text-slate-900">
-                <div className="text-lg font-extrabold">Future MD Academy</div>
-                <div className="text-xs text-slate-500">MCAT Tutoring</div>
-              </div>
-            </div>
-            <p className="mt-4 text-sm text-slate-600">
-              Top 5% tutors. Top 1% section specialists. Guaranteed score growth.
-            </p>
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-slate-900">Company</div>
-            <ul className="mt-3 space-y-2 text-sm text-slate-600">
-              <li>
-                <a href="#services" className="hover:text-slate-900">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a href="#pricing" className="hover:text-slate-900">
-                  Pricing
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="hover:text-slate-900">
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-slate-900">Legal</div>
-            <ul className="mt-3 space-y-2 text-sm text-slate-600">
-              <li>
-                <a href="#" className="hover:text-slate-900">
-                  Terms
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-slate-900">
-                  Privacy
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-slate-900">Contact</div>
-            <ul className="mt-3 space-y-2 text-sm text-slate-600">
-              <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4" /> hello@futuremdacademy.org
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4" /> 123-456-789
-              </li>
-              <li className="flex items-center gap-2">
-                <Globe className="h-4 w-4" /> FutureMDAcademy.org
-              </li>
-            </ul>
-          </div>
-        </Container>
-        <div className="border-t py-6 text-center text-xs text-slate-500">
-          © {new Date().getFullYear()} Future MD Academy. All rights reserved.
         </div>
-      </footer>
-    </div>
-  );
-}
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Common questions</h2>
+        <p class="section-subtitle">
+          Straight answers to the things everyone asks before they start.
+        </p>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-q">Is this worth it if I already bought another course?</div>
+            <div class="faq-a">
+              Yes — most of our students come from big-box courses that didn’t move their score.
+              We keep any good materials you already have and focus on strategy, accountability, and
+              exam-level practice.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Do you guarantee a certain score?</div>
+            <div class="faq-a">
+              No fake guarantees. We guarantee clarity: you’ll know what to do every week, why
+              you’re doing it, and what we’re adjusting based on your practice results.
+            </div>
+          </div>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-q">How many students do you take at once?</div>
+            <div class="faq-a">
+              Very few. We’re not trying to be a call center. Each tutor works with a small,
+              controlled number of students so feedback stays sharp and personalized.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Can you help with applications too?</div>
+            <div class="faq-a">
+              Our primary focus is MCAT performance. When your score is where it needs to be, we can
+              discuss separate support for school list strategy and primary/secondary essays.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>© <span id="year"></span> FutureMD Academy. All rights reserved.</div>
+      <div class="footer-links">
+        <span>Email: <a href="mailto:hello@futuremdacademy.com">hello@futuremdacademy.com</a></span>
+        <span>Instagram: @futuremdacademy (placeholder)</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const HOURLY_RATE = 150; // 20h -> 3000, 40h -> 6000
+
+    function formatMoney(value) {
+      return "$" + value.toLocaleString("en-US", { maximumFractionDigits: 0 });
+    }
+
+    function updatePricing(hoursStr) {
+      const hours = parseInt(hoursStr, 10);
+      const total = hours * HOURLY_RATE;
+
+      const hoursLabel = document.getElementById("hoursLabel");
+      const priceDisplay = document.getElementById("priceDisplay");
+      const hourlyDisplay = document.getElementById("hourlyDisplay");
+      const sliderPrice = document.getElementById("sliderPrice");
+
+      if (!hoursLabel || !priceDisplay || !hourlyDisplay || !sliderPrice) return;
+
+      hoursLabel.textContent = hours;
+      priceDisplay.textContent = formatMoney(total);
+      sliderPrice.textContent = formatMoney(total);
+      hourlyDisplay.textContent = "$" + HOURLY_RATE;
+    }
+
+    function scrollToForm() {
+      const el = document.getElementById("apply");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", function () {
+      const slider = document.getElementById("hoursRange");
+      if (slider) updatePricing(slider.value);
+
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
