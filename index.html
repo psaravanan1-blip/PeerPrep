@@ -24,15 +24,6 @@
         --gold: #e0b84d;
         --light: #f5f5f7;
       }
-
-      /* Hide scrollbar but keep scroll behavior for testimonials track */
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
     </style>
   </head>
   <body class="min-h-screen scroll-smooth bg-[var(--light)]">
@@ -731,7 +722,7 @@
       </div>
     </section>
 
-    <!-- Testimonials (slider) -->
+    <!-- Testimonials -->
     <section id="testimonials" class="scroll-mt-24 py-20 bg-[var(--light)]">
       <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
@@ -739,133 +730,548 @@
           <p class="mt-3 text-slate-600">Real outcomes from tailored coaching.</p>
         </div>
 
-        <div class="mt-10 relative">
-          <!-- Prev / Next buttons -->
-          <button
-            id="testPrev"
-            type="button"
-            class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50"
-            aria-label="Previous testimonial"
-          >
-            ‹
-          </button>
-          <button
-            id="testNext"
-            type="button"
-            class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50"
-            aria-label="Next testimonial"
-          >
-            ›
-          </button>
+        <!-- Simple grid version of testimonials -->
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          <!-- 1 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “Went from a 503 diagnostic to a 515 in 8 weeks. Timing strategies
+              changed everything for CARS.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Riya P.</div>
+                <div class="text-sm text-slate-600">Accepted to UA COM</div>
+              </div>
+            </div>
+          </div>
+          <!-- 2 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “My B/B plateau broke after two sessions with a 132 scorer who
+              showed me how to read passages like a scientist.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Jason M.</div>
+                <div class="text-sm text-slate-600">520 official</div>
+              </div>
+            </div>
+          </div>
+          <!-- 3 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “I finally had a plan I could follow with school. The weekly
+              check ins kept me consistent.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Amrita K.</div>
+                <div class="text-sm text-slate-600">+12 point increase</div>
+              </div>
+            </div>
+          </div>
+          <!-- 4 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “+14 points in 6 weeks. Custom passages and error logs made the
+              difference.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Lauren S.</div>
+                <div class="text-sm text-slate-600">NYU applicant</div>
+              </div>
+            </div>
+          </div>
+          <!-- 5 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “C/P clicked once we switched to a data first approach. I hit 131
+              on my next FL.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Marcus D.</div>
+                <div class="text-sm text-slate-600">131 C/P</div>
+              </div>
+            </div>
+          </div>
+          <!-- 6 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “I always felt stuck at 508. Pacing and reasoning drills took me to
+              a 519 official.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Sofia H.</div>
+                <div class="text-sm text-slate-600">519 official</div>
+              </div>
+            </div>
+          </div>
+          <!-- 7 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “Tutor matched me by personality and schedule. Studying finally
+              felt sustainable and my stress dropped.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Neha L.</div>
+                <div class="text-sm text-slate-600">+11 point jump</div>
+              </div>
+            </div>
+          </div>
+          <!-- 8 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “The passage mapping method for B/B was a game changer. I stopped
+              rereading and started answering with confidence.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Caleb W.</div>
+                <div class="text-sm text-slate-600">131 B/B</div>
+              </div>
+            </div>
+          </div>
+          <!-- 9 -->
+          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
+            <p class="text-slate-700">
+              “Their weekly accountability texts kept me honest. I hit my 515
+              goal a month early.”
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div>
+                <div class="font-semibold text-[var(--navy)]">Janelle T.</div>
+                <div class="text-sm text-slate-600">515 official</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- Track -->
-          <div
-            id="testTrack"
-            class="no-scrollbar flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 pt-2"
+    <!-- FAQ -->
+    <section id="faq" class="scroll-mt-24 py-20 bg-white">
+      <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-extrabold text-slate-900">FAQ</h2>
+          <p class="mt-3 text-slate-600">Quick answers to common questions.</p>
+        </div>
+        <div class="mt-10 grid gap-4 md:grid-cols-2">
+          <details class="group rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+            <summary class="cursor-pointer list-none">
+              <div class="flex items-start justify-between gap-6">
+                <h4 class="text-base font-semibold text-slate-900">
+                  Who are the tutors?
+                </h4>
+                <span
+                  class="mt-1 rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:hidden"
+                  >+</span
+                >
+                <span
+                  class="mt-1 hidden rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:inline"
+                  >–</span
+                >
+              </div>
+            </summary>
+            <p class="mt-3 text-slate-600">
+              All coaches are top 5% scorers with 518 or higher and demonstrated
+              section expertise with 131 or 132. We match you based on strengths
+              and teaching style.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+            <summary class="cursor-pointer list-none">
+              <div class="flex items-start justify-between gap-6">
+                <h4 class="text-base font-semibold text-slate-900">
+                  Do you offer online sessions?
+                </h4>
+                <span
+                  class="mt-1 rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:hidden"
+                  >+</span
+                >
+                <span
+                  class="mt-1 hidden rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:inline"
+                  >–</span
+                >
+              </div>
+            </summary>
+            <p class="mt-3 text-slate-600">
+              Yes. We tutor via Zoom or Google Meet with shared whiteboarding and
+              recorded notes when requested.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+            <summary class="cursor-pointer list-none">
+              <div class="flex items-start justify-between gap-6">
+                <h4 class="text-base font-semibold text-slate-900">
+                  What materials do you use?
+                </h4>
+                <span
+                  class="mt-1 rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:hidden"
+                  >+</span
+                >
+                <span
+                  class="mt-1 hidden rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:inline"
+                  >–</span
+                >
+              </div>
+            </summary>
+            <p class="mt-3 text-slate-600">
+              AAMC resources first, paired with high yield third party practice
+              tailored to your needs.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+            <summary class="cursor-pointer list-none">
+              <div class="flex items-start justify-between gap-6">
+                <h4 class="text-base font-semibold text-slate-900">
+                  How does the guarantee work?
+                </h4>
+                <span
+                  class="mt-1 rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:hidden"
+                  >+</span
+                >
+                <span
+                  class="mt-1 hidden rounded-full border px-2 py-0.5 text-xs text-slate-500 group-open:inline"
+                  >–</span
+                >
+              </div>
+            </summary>
+            <p class="mt-3 text-slate-600">
+              With 20 hours completed and adherence to your plan, we guarantee a
+              10 point increase from your verified baseline or refund 10% of your
+              hours.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="scroll-mt-24 py-20 bg-[var(--light)]">
+      <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-extrabold text-slate-900">
+            Book your free consultation
+          </h2>
+          <p class="mt-3 text-slate-600">
+            Tell us your target date and goals. We reply within 24 hours with
+            next steps and available times.
+          </p>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-4xl gap-6 md:grid-cols-2">
+          <form
+            method="POST"
+            action="https://formspree.io/f/your-id"
+            class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5"
           >
-            <!-- 1 -->
-            <div
-              class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
-            >
-              <p class="text-slate-700">
-                “Went from a 503 diagnostic to a 515 in 8 weeks. Timing strategies
-                changed everything for CARS.”
-              </p>
-              <div class="mt-4 flex items-center gap-3">
-                <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div class="grid gap-4">
+              <input
+                required
+                name="name"
+                placeholder="Full name"
+                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
+              />
+              <input
+                required
+                type="email"
+                name="email"
+                placeholder="Email"
+                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
+              />
+              <input
+                name="phone"
+                placeholder="Phone (optional)"
+                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
+              />
+              <input
+                name="test_date"
+                placeholder="Target MCAT date (e.g., June 28, 2026)"
+                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
+              />
+              <textarea
+                required
+                name="message"
+                rows="5"
+                placeholder="Tell us about your goals and biggest hurdles"
+                class="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-[var(--navy)]"
+              ></textarea>
+              <button
+                type="submit"
+                class="inline-flex items-center justify-center gap-2 rounded-2xl bg-[var(--navy)] px-5 py-3 font-semibold text-white hover:opacity-90"
+              >
+                Request Consultation
+                <span>→</span>
+              </button>
+            </div>
+            <p class="mt-3 text-xs text-slate-500">
+              By submitting, you agree to be contacted about scheduling and
+              services. No spam.
+            </p>
+          </form>
+
+          <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+            <div class="space-y-4 text-slate-700">
+              <div class="flex items-start gap-3">
+                <span class="mt-0.5">✉</span>
                 <div>
-                  <div class="font-semibold text-[var(--navy)]">Riya P.</div>
-                  <div class="text-sm text-slate-600">Accepted to UA COM</div>
+                  <div class="text-sm font-semibold text-slate-900">Email</div>
+                  <a
+                    href="mailto:hello@futuremdacademy.org"
+                    class="text-[var(--navy)] hover:underline"
+                    >hello@futuremdacademy.org</a
+                  >
                 </div>
               </div>
-            </div>
-            <!-- 2 -->
-            <div
-              class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
-            >
-              <p class="text-slate-700">
-                “My B/B plateau broke after two sessions with a 132 scorer who
-                showed me how to read passages like a scientist.”
-              </p>
-              <div class="mt-4 flex items-center gap-3">
-                <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div class="flex items-start gap-3">
+                <span class="mt-0.5">📞</span>
                 <div>
-                  <div class="font-semibold text-[var(--navy)]">Jason M.</div>
-                  <div class="text-sm text-slate-600">520 official</div>
+                  <div class="text-sm font-semibold text-slate-900">Phone</div>
+                  <a
+                    href="tel:123456789"
+                    class="text-[var(--navy)] hover:underline"
+                    >(123) 456 789</a
+                  >
                 </div>
               </div>
-            </div>
-            <!-- 3 -->
-            <div
-              class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
-            >
-              <p class="text-slate-700">
-                “I finally had a plan I could follow with school. The weekly
-                check ins kept me consistent.”
-              </p>
-              <div class="mt-4 flex items-center gap-3">
-                <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+              <div class="flex items-start gap-3">
+                <span class="mt-0.5">🌐</span>
                 <div>
-                  <div class="font-semibold text-[var(--navy)]">Amrita K.</div>
-                  <div class="text-sm text-slate-600">+12 point increase</div>
+                  <div class="text-sm font-semibold text-slate-900">Website</div>
+                  <a
+                    href="https://FutureMDAcademy.org"
+                    class="text-[var(--navy)] hover:underline"
+                    >FutureMDAcademy.org</a
+                  >
                 </div>
               </div>
-            </div>
-            <!-- 4 -->
-            <div
-              class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
-            >
-              <p class="text-slate-700">
-                “+14 points in 6 weeks. Custom passages and error logs made the
-                difference.”
-              </p>
-              <div class="mt-4 flex items-center gap-3">
-                <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-                <div>
-                  <div class="font-semibold text-[var(--navy)]">Lauren S.</div>
-                  <div class="text-sm text-slate-600">NYU applicant</div>
-                </div>
+              <div
+                class="rounded-xl bg-[var(--navy)]/5 p-4 text-sm"
+              >
+                Prefer email. Send your availability and target score to
+                <span class="font-semibold">hello@futuremdacademy.org</span> and
+                we handle the rest.
               </div>
             </div>
-            <!-- 5 -->
             <div
-              class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+              class="mt-6 rounded-xl border border-dashed border-slate-200 p-4 text-sm text-slate-500"
             >
-              <p class="text-slate-700">
-                “C/P clicked once we switched to a data first approach. I hit 131
-                on my next FL.”
-              </p>
-              <div class="mt-4 flex items-center gap-3">
-                <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-                <div>
-                  <div class="font-semibold text-[var(--navy)]">Marcus D.</div>
-                  <div class="text-sm text-slate-600">131 C/P</div>
-                </div>
-              </div>
+              Optional: embed your flyer or QR here.
             </div>
-            <!-- 6 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t bg-white">
+      <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 grid gap-8 py-10 md:grid-cols-4">
+        <div>
+          <div class="flex items-center gap-3">
             <div
-              class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--navy)] text-white"
             >
-              <p class="text-slate-700">
-                “I always felt stuck at 508. Pacing and reasoning drills took me to
-                a 519 official.”
-              </p>
-              <div class="mt-4 flex items-center gap-3">
-                <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-                <div>
-                  <div class="font-semibold text-[var(--navy)]">Sofia H.</div>
-                  <div class="text-sm text-slate-600">519 official</div>
-                </div>
-              </div>
+              🎓
             </div>
-            <!-- 7 -->
-            <div
-              class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
-            >
-              <p class="text-slate-700">
-                “Tutor matched me by personality and schedule. Studying finally
-                felt sustainable and my stress dropped.”
-              </p>
-              <div class="mt-4 flex items-center gap-3">
-                <div class="h-10 w-10 shrink-0 rounded-full bg-[v]()
+            <div class="text-slate-900">
+              <div class="text-lg font-extrabold">Future MD Academy</div>
+              <div class="text-xs text-slate-500">MCAT Tutoring</div>
+            </div>
+          </div>
+          <p class="mt-4 text-sm text-slate-600">
+            Top 5% tutors. Top 1% section specialists. Guaranteed score growth.
+          </p>
+        </div>
+        <div>
+          <div class="text-sm font-semibold text-slate-900">Company</div>
+          <ul class="mt-3 space-y-2 text-sm text-slate-600">
+            <li><a href="#services" class="hover:text-slate-900">Services</a></li>
+            <li><a href="#pricing" class="hover:text-slate-900">Pricing</a></li>
+            <li><a href="#faq" class="hover:text-slate-900">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-sm font-semibold text-slate-900">Legal</div>
+          <ul class="mt-3 space-y-2 text-sm text-slate-600">
+            <li><a href="#" class="hover:text-slate-900">Terms</a></li>
+            <li><a href="#" class="hover:text-slate-900">Privacy</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-sm font-semibold text-slate-900">Contact</div>
+          <ul class="mt-3 space-y-2 text-sm text-slate-600">
+            <li class="flex items-center gap-2">
+              ✉
+              <span>hello@futuremdacademy.org</span>
+            </li>
+            <li class="flex items-center gap-2">
+              📞
+              <span>123 456 789</span>
+            </li>
+            <li class="flex items-center gap-2">
+              🌐
+              <span>FutureMDAcademy.org</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t py-6 text-center text-xs text-slate-500">
+        © <span id="year"></span> Future MD Academy. All rights reserved.
+      </div>
+    </footer>
+
+    <!-- Vanilla JS logic to replace the React state for pricing and nav -->
+    <script>
+      function formatUSD(n) {
+        return n.toLocaleString(undefined, {
+          style: "currency",
+          currency: "USD",
+        });
+      }
+
+      function getSmoothRate(hours) {
+        if (hours <= 9) return 195;
+        if (hours <= 19) return 195 - ((hours - 10) * (195 - 185)) / (19 - 10);
+        if (hours <= 40) return 180 - ((hours - 20) * (180 - 160)) / (40 - 20);
+        if (hours <= 80) return 160 - ((hours - 40) * (160 - 150)) / (80 - 40);
+        if (hours <= 120) return 150 - ((hours - 80) * (150 - 145)) / (120 - 80);
+        return 145;
+      }
+
+      function getDiscount(hours) {
+        if (hours < 20) return 0;
+        if (hours <= 40) return 600 - 10 * (hours - 20);
+        return 400;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const yearSpan = document.getElementById("year");
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+        const menuToggle = document.getElementById("menuToggle");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (menuToggle && mobileMenu) {
+          menuToggle.addEventListener("click", function () {
+            mobileMenu.classList.toggle("hidden");
+          });
+        }
+
+        const hoursRange = document.getElementById("hoursRange");
+        const decreaseHours = document.getElementById("decreaseHours");
+        const increaseHours = document.getElementById("increaseHours");
+        const hoursDisplay = document.getElementById("hoursDisplay");
+        const hoursValue = document.getElementById("hoursValue");
+        const rateValue = document.getElementById("rateValue");
+        const totalValue = document.getElementById("totalValue");
+        const lineLabel = document.getElementById("lineLabel");
+        const lineSubtotal = document.getElementById("lineSubtotal");
+        const discountRow = document.getElementById("discountRow");
+        const discountValue = document.getElementById("discountValue");
+        const totalFinal = document.getElementById("totalFinal");
+        const paymentOptions = document.querySelectorAll(".payment-option");
+
+        function updatePricingFromHours(hours) {
+          const h = Math.max(0, Math.min(120, hours));
+          const rate = getSmoothRate(h);
+          const subtotal = h * rate;
+          const discount = getDiscount(h);
+          const total = Math.max(0, subtotal - discount);
+
+          if (hoursRange) hoursRange.value = h;
+          if (hoursDisplay) hoursDisplay.textContent = h;
+          if (hoursValue) hoursValue.textContent = h;
+          if (rateValue) rateValue.textContent = formatUSD(rate);
+          if (totalValue) totalValue.textContent = formatUSD(total);
+          if (lineLabel)
+            lineLabel.textContent =
+              "Tutoring – " + h + " hr" + (h === 1 ? "" : "s") + " @ " + formatUSD(rate) + "/hr";
+          if (lineSubtotal) lineSubtotal.textContent = formatUSD(subtotal);
+
+          if (discount > 0) {
+            discountRow.classList.remove("hidden");
+            discountValue.textContent = "-" + formatUSD(discount);
+          } else {
+            discountRow.classList.add("hidden");
+            discountValue.textContent = "-" + formatUSD(0);
+          }
+          if (totalFinal) totalFinal.textContent = formatUSD(total);
+
+          // update payment options
+          paymentOptions.forEach(function (btn) {
+            const spans = btn.querySelectorAll("[data-role='amount']");
+            const installments = parseInt(btn.getAttribute("data-installments"), 10);
+            spans.forEach(function (sp) {
+              if (!installments) {
+                sp.textContent = formatUSD(total);
+              } else {
+                sp.textContent = formatUSD(total / installments) + "/mo";
+              }
+            });
+          });
+        }
+
+        function getCurrentHours() {
+          return parseInt(hoursRange.value, 10) || 0;
+        }
+
+        if (hoursRange) {
+          hoursRange.addEventListener("input", function () {
+            updatePricingFromHours(parseInt(this.value, 10));
+          });
+        }
+
+        if (decreaseHours) {
+          decreaseHours.addEventListener("click", function () {
+            updatePricingFromHours(getCurrentHours() - 1);
+          });
+        }
+        if (increaseHours) {
+          increaseHours.addEventListener("click", function () {
+            updatePricingFromHours(getCurrentHours() + 1);
+          });
+        }
+
+        // payment option selection styling
+        paymentOptions.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            paymentOptions.forEach(function (b) {
+              b.classList.remove(
+                "border-fuchsia-300",
+                "bg-fuchsia-50",
+                "ring-1",
+                "ring-fuchsia-200"
+              );
+              b.classList.add("border-neutral-200");
+            });
+            btn.classList.remove("border-neutral-200");
+            btn.classList.add(
+              "border-fuchsia-300",
+              "bg-fuchsia-50",
+              "ring-1",
+              "ring-fuchsia-200"
+            );
+          });
+        });
+
+        // initial
+        updatePricingFromHours(15);
+      });
+    </script>
+  </body>
+</html>
