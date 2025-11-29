@@ -214,10 +214,10 @@
                     <div
                       class="mt-3 text-lg font-medium text-slate-900"
                     >
-                      <span class="inline-block rounded-sm bg-[var(--gold)]/80 px-1 text-[var(--navy)]">
-    Average
-  </span>
-  <span>Student Score</span>
+                      <span
+                        class="inline-block rounded-sm bg-[var(--gold)]/80 px-1 text-[var(--navy)]"
+                        >Average</span
+                      ><span class="ml-2">Student Score</span>
                     </div>
                   </div>
                   <div class="hidden h-auto w-px bg-slate-200 md:block"></div>
@@ -232,10 +232,10 @@
                     <div
                       class="mt-3 text-lg font-medium text-slate-900"
                     >
-                      <span class="inline-block rounded-sm bg-[var(--gold)]/80 px-1 text-[var(--navy)]">
-    Average
-  </span>
-  <span>Score Increase</span>
+                      <span
+                        class="inline-block rounded-sm bg-[var(--gold)]/80 px-1 text-[var(--navy)]"
+                        >Average</span
+                      ><span class="ml-2">Score Increase</span>
                     </div>
                   </div>
                 </div>
@@ -1219,7 +1219,6 @@
     </footer>
 
     <!-- Vanilla JS logic to replace the React state for pricing and nav -->
-        <!-- Vanilla JS logic to replace the React state for pricing, nav, and testimonials -->
     <script>
       function formatUSD(n) {
         return n.toLocaleString(undefined, {
@@ -1244,77 +1243,227 @@
       }
 
       document.addEventListener("DOMContentLoaded", function () {
-        // year in footer
         const yearSpan = document.getElementById("year");
         if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-        // mobile nav
         const menuToggle = document.getElementById("menuToggle");
         const mobileMenu = document.getElementById("mobileMenu");
         if (menuToggle && mobileMenu) {
           menuToggle.addEventListener("click", function () {
             mobileMenu.classList.toggle("hidden");
-          });
+                  <!-- Testimonials -->
+<section id="testimonials" class="scroll-mt-24 py-20 bg-[var(--light)]">
+  <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-extrabold text-slate-900">Student wins</h2>
+      <p class="mt-3 text-slate-600">Real outcomes from tailored coaching.</p>
+    </div>
+
+    <div class="mt-10 relative">
+      <!-- soft glow behind slides -->
+      <div
+        class="pointer-events-none absolute inset-x-2 sm:inset-x-8 -top-2 bottom-0 rounded-3xl bg-white/70 blur-xl"
+      ></div>
+
+      <!-- Prev / Next buttons -->
+      <button
+        id="testPrev"
+        type="button"
+        class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50"
+        aria-label="Previous testimonials"
+      >
+        ‹
+      </button>
+      <button
+        id="testNext"
+        type="button"
+        class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50"
+        aria-label="Next testimonials"
+      >
+        ›
+      </button>
+
+      <!-- Slides track -->
+      <div
+        id="testTrack"
+        class="relative no-scrollbar flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-8 pt-4 px-2 max-w-6xl mx-auto"
+      >
+        <!-- SLIDE 1 -->
+        <div
+          class="testimonial-slide snap-start flex-shrink-0 w-full md:w-[calc(100%-3rem)]"
+        >
+          <div class="grid gap-6 md:grid-cols-3">
+            <!-- Riya -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  I started at a 503 diagnostic and honestly felt pretty defeated. After a few weeks of timing drills and CARS breakdowns, passages stopped feeling like walls of text. By test day I was calm, and I walked out with a 515.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Riya P.</div>
+                <div class="text-sm text-slate-600">Accepted to UA COM</div>
+              </div>
+            </div>
+
+            <!-- Jason -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  I had been stuck around the same B/B score for months and couldn’t see what I was missing. My tutor slowed everything down and showed me how to read figures and experiments like a researcher instead of a stressed student. Once that clicked, my score jumped and I finished with a 520.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Jason M.</div>
+                <div class="text-sm text-slate-600">520 official</div>
+              </div>
+            </div>
+
+            <!-- Amrita -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  Balancing school, research, and MCAT prep felt impossible before I had a real plan. We built a weekly schedule that told me exactly what to do and how long it should take. With that structure, my studying finally stuck and I ended up gaining 12 points.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Amrita K.</div>
+                <div class="text-sm text-slate-600">+12 point increase</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div
+          class="testimonial-slide snap-start flex-shrink-0 w-full md:w-[calc(100%-3rem)]"
+        >
+          <div class="grid gap-6 md:grid-cols-3">
+            <!-- Lauren -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  I was doing tons of questions but not actually learning from my mistakes. We built an error log and turned my misses into patterns I could fix instead of random failures. Six weeks later I was up 14 points and finally felt in control of my score.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Lauren S.</div>
+                <div class="text-sm text-slate-600">NYU applicant</div>
+              </div>
+            </div>
+
+            <!-- Marcus -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  Chem/Phys terrified me because I felt like I had forgotten all my formulas. My tutor had me build a small set of “must-know” equations and drilled me on how to recognize them in passages. Once we layered in data-first practice, my section score climbed to a 131.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Marcus D.</div>
+                <div class="text-sm text-slate-600">131 C/P</div>
+              </div>
+            </div>
+
+            <!-- Sofia -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  I had been sitting at a 508 for three practice tests and felt totally stuck. We shifted the focus from content to pacing, reasoning, and how I moved through each passage. That change in approach pushed me to a 519 on my official exam.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Sofia H.</div>
+                <div class="text-sm text-slate-600">519 official</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div
+          class="testimonial-slide snap-start flex-shrink-0 w-full md:w-[calc(100%-3rem)]"
+        >
+          <div class="grid gap-6 md:grid-cols-3">
+            <!-- Neha -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  I kept burning out because I tried to copy other people’s study schedules. My tutor actually asked about my sleep, work hours, and stress level before suggesting anything. For the first time studying felt sustainable, and my score jumped by 11 points.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Neha L.</div>
+                <div class="text-sm text-slate-600">+11 point jump</div>
+              </div>
+            </div>
+
+            <!-- Caleb -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  I used to reread every B/B passage because I was afraid of missing details. Learning the passage mapping method gave me a simple way to mark what mattered and move on. Once I trusted that process, my accuracy went up and I scored a 131 in B/B.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Caleb W.</div>
+                <div class="text-sm text-slate-600">131 B/B</div>
+              </div>
+            </div>
+
+            <!-- Janelle -->
+            <div
+              class="rounded-2xl bg-white/95 p-6 shadow-md ring-1 ring-[var(--gold)]/70 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div class="mb-2 text-2xl leading-none text-[var(--gold)]">“</div>
+                <p class="text-slate-700 leading-relaxed">
+                  I’m the type of person who needs someone checking in or I start slipping. The weekly accountability texts forced me to actually follow the plan instead of just liking it on paper. With that extra push, I hit my 515 goal a full month earlier than I expected.
+                </p>
+              </div>
+              <div class="mt-5">
+                <div class="font-semibold text-[var(--navy)]">Janelle T.</div>
+                <div class="text-sm text-slate-600">515 official</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="mt-4 text-center text-xs text-slate-500 md:hidden relative z-10">
+        Swipe left or right to see more stories.
+      </p>
+    </div>
+  </div>
+</section>
+
+});
         }
 
-        // -----------------------------
-        // TESTIMONIAL SLIDER
-        // -----------------------------
-        const testTrack = document.getElementById("testTrack");
-        const testPrev = document.getElementById("testPrev");
-        const testNext = document.getElementById("testNext");
-
-        if (testTrack && testPrev && testNext) {
-          const slides = Array.from(
-            testTrack.querySelectorAll(".testimonial-slide")
-          );
-          let currentIndex = 0;
-
-          function goToSlide(index) {
-            if (!slides.length) return;
-
-            const total = slides.length;
-            currentIndex = ((index % total) + total) % total; // wrap
-
-            const targetSlide = slides[currentIndex];
-            const firstSlide = slides[0];
-            const offset = targetSlide.offsetLeft - firstSlide.offsetLeft;
-
-            testTrack.scrollTo({
-              left: offset,
-              behavior: "smooth",
-            });
-          }
-
-          testPrev.addEventListener("click", function () {
-            goToSlide(currentIndex - 1);
-          });
-
-          testNext.addEventListener("click", function () {
-            goToSlide(currentIndex + 1);
-          });
-
-          // show arrows only on desktop
-          function handleResize() {
-            if (window.innerWidth >= 768) {
-              testPrev.classList.remove("hidden");
-              testNext.classList.remove("hidden");
-            } else {
-              testPrev.classList.add("hidden");
-              testNext.classList.add("hidden");
-            }
-          }
-
-          handleResize();
-          window.addEventListener("resize", handleResize);
-
-          // start on first slide
-          goToSlide(0);
-        }
-
-        // -----------------------------
-        // PRICING SLIDER
-        // -----------------------------
         const hoursRange = document.getElementById("hoursRange");
         const decreaseHours = document.getElementById("decreaseHours");
         const increaseHours = document.getElementById("increaseHours");
@@ -1343,13 +1492,7 @@
           if (totalValue) totalValue.textContent = formatUSD(total);
           if (lineLabel)
             lineLabel.textContent =
-              "Tutoring – " +
-              h +
-              " hr" +
-              (h === 1 ? "" : "s") +
-              " @ " +
-              formatUSD(rate) +
-              "/hr";
+              "Tutoring – " + h + " hr" + (h === 1 ? "" : "s") + " @ " + formatUSD(rate) + "/hr";
           if (lineSubtotal) lineSubtotal.textContent = formatUSD(subtotal);
 
           if (discount > 0) {
@@ -1364,10 +1507,7 @@
           // update payment options
           paymentOptions.forEach(function (btn) {
             const spans = btn.querySelectorAll("[data-role='amount']");
-            const installments = parseInt(
-              btn.getAttribute("data-installments"),
-              10
-            );
+            const installments = parseInt(btn.getAttribute("data-installments"), 10);
             spans.forEach(function (sp) {
               if (!installments) {
                 sp.textContent = formatUSD(total);
@@ -1421,7 +1561,7 @@
           });
         });
 
-        // initial pricing state
+        // initial
         updatePricingFromHours(15);
       });
     </script>
