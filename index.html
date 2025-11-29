@@ -18,13 +18,23 @@
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-      :root {
-        --navy: #0b2a3c;
-        --gold: #e0b84d;
-        --light: #f5f5f7;
-      }
-    </style>
+   <style>
+  :root {
+    --navy: #0b2a3c;
+    --gold: #e0b84d;
+    --light: #f5f5f7;
+  }
+
+  /* hide scrollbar for the testimonial track */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
   </head>
   <body class="min-h-screen scroll-smooth bg-[var(--light)]">
     <!-- Top bar -->
@@ -724,143 +734,190 @@
 
     <!-- Testimonials -->
     <section id="testimonials" class="scroll-mt-24 py-20 bg-[var(--light)]">
-      <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl text-center">
-          <h2 class="text-3xl font-extrabold text-slate-900">Student wins</h2>
-          <p class="mt-3 text-slate-600">Real outcomes from tailored coaching.</p>
-        </div>
+  <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-extrabold text-slate-900">Student wins</h2>
+      <p class="mt-3 text-slate-600">Real outcomes from tailored coaching.</p>
+    </div>
 
-        <!-- Simple grid version of testimonials -->
-        <div class="mt-10 grid gap-6 md:grid-cols-3">
-          <!-- 1 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “Went from a 503 diagnostic to a 515 in 8 weeks. Timing strategies
-              changed everything for CARS.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Riya P.</div>
-                <div class="text-sm text-slate-600">Accepted to UA COM</div>
-              </div>
+    <div class="mt-10 relative">
+      <!-- Prev / Next buttons (desktop) -->
+      <button
+        id="testPrev"
+        type="button"
+        class="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50"
+        aria-label="Previous testimonial"
+      >
+        ‹
+      </button>
+      <button
+        id="testNext"
+        type="button"
+        class="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50"
+        aria-label="Next testimonial"
+      >
+        ›
+      </button>
+
+      <!-- Horizontal track -->
+      <div
+        id="testTrack"
+        class="no-scrollbar flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 pt-2"
+      >
+        <!-- 1 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “Went from a 503 diagnostic to a 515 in 8 weeks. Timing strategies
+            changed everything for CARS.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Riya P.</div>
+              <div class="text-sm text-slate-600">Accepted to UA COM</div>
             </div>
           </div>
-          <!-- 2 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “My B/B plateau broke after two sessions with a 132 scorer who
-              showed me how to read passages like a scientist.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Jason M.</div>
-                <div class="text-sm text-slate-600">520 official</div>
-              </div>
+        </div>
+        <!-- 2 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “My B/B plateau broke after two sessions with a 132 scorer who
+            showed me how to read passages like a scientist.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Jason M.</div>
+              <div class="text-sm text-slate-600">520 official</div>
             </div>
           </div>
-          <!-- 3 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “I finally had a plan I could follow with school. The weekly
-              check ins kept me consistent.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Amrita K.</div>
-                <div class="text-sm text-slate-600">+12 point increase</div>
-              </div>
+        </div>
+        <!-- 3 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “I finally had a plan I could follow with school. The weekly
+            check ins kept me consistent.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Amrita K.</div>
+              <div class="text-sm text-slate-600">+12 point increase</div>
             </div>
           </div>
-          <!-- 4 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “+14 points in 6 weeks. Custom passages and error logs made the
-              difference.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Lauren S.</div>
-                <div class="text-sm text-slate-600">NYU applicant</div>
-              </div>
+        </div>
+        <!-- 4 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “+14 points in 6 weeks. Custom passages and error logs made the
+            difference.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Lauren S.</div>
+              <div class="text-sm text-slate-600">NYU applicant</div>
             </div>
           </div>
-          <!-- 5 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “C/P clicked once we switched to a data first approach. I hit 131
-              on my next FL.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Marcus D.</div>
-                <div class="text-sm text-slate-600">131 C/P</div>
-              </div>
+        </div>
+        <!-- 5 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “C/P clicked once we switched to a data first approach. I hit 131
+            on my next FL.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Marcus D.</div>
+              <div class="text-sm text-slate-600">131 C/P</div>
             </div>
           </div>
-          <!-- 6 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “I always felt stuck at 508. Pacing and reasoning drills took me to
-              a 519 official.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Sofia H.</div>
-                <div class="text-sm text-slate-600">519 official</div>
-              </div>
+        </div>
+        <!-- 6 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “I always felt stuck at 508. Pacing and reasoning drills took me to
+            a 519 official.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Sofia H.</div>
+              <div class="text-sm text-slate-600">519 official</div>
             </div>
           </div>
-          <!-- 7 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “Tutor matched me by personality and schedule. Studying finally
-              felt sustainable and my stress dropped.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Neha L.</div>
-                <div class="text-sm text-slate-600">+11 point jump</div>
-              </div>
+        </div>
+        <!-- 7 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “Tutor matched me by personality and schedule. Studying finally
+            felt sustainable and my stress dropped.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Neha L.</div>
+              <div class="text-sm text-slate-600">+11 point jump</div>
             </div>
           </div>
-          <!-- 8 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “The passage mapping method for B/B was a game changer. I stopped
-              rereading and started answering with confidence.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Caleb W.</div>
-                <div class="text-sm text-slate-600">131 B/B</div>
-              </div>
+        </div>
+        <!-- 8 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “The passage mapping method for B/B was a game changer. I stopped
+            rereading and started answering with confidence.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Caleb W.</div>
+              <div class="text-sm text-slate-600">131 B/B</div>
             </div>
           </div>
-          <!-- 9 -->
-          <div class="rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)]">
-            <p class="text-slate-700">
-              “Their weekly accountability texts kept me honest. I hit my 515
-              goal a month early.”
-            </p>
-            <div class="mt-4 flex items-center gap-3">
-              <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
-              <div>
-                <div class="font-semibold text-[var(--navy)]">Janelle T.</div>
-                <div class="text-sm text-slate-600">515 official</div>
-              </div>
+        </div>
+        <!-- 9 -->
+        <div
+          class="testimonial-card snap-start flex-shrink-0 rounded-2xl bg-white p-4 shadow-sm border border-[var(--gold)] min-w-[260px] sm:min-w-[320px] md:min-w-[360px]"
+        >
+          <p class="text-slate-700">
+            “Their weekly accountability texts kept me honest. I hit my 515
+            goal a month early.”
+          </p>
+          <div class="mt-4 flex items-center gap-3">
+            <div class="h-10 w-10 shrink-0 rounded-full bg-[var(--navy)]/10"></div>
+            <div>
+              <div class="font-semibold text-[var(--navy)]">Janelle T.</div>
+              <div class="text-sm text-slate-600">515 official</div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+
+      <!-- mobile hint -->
+      <p class="mt-4 text-center text-xs text-slate-500 md:hidden">
+        Swipe left or right to see more stories.
+      </p>
+    </div>
+  </div>
+</section>
+
 
     <!-- FAQ -->
     <section id="faq" class="scroll-mt-24 py-20 bg-white">
@@ -1169,7 +1226,48 @@
         if (menuToggle && mobileMenu) {
           menuToggle.addEventListener("click", function () {
             mobileMenu.classList.toggle("hidden");
+                  // TESTIMONIAL SLIDER
+        const testTrack = document.getElementById("testTrack");
+        const testPrev = document.getElementById("testPrev");
+        const testNext = document.getElementById("testNext");
+
+        if (testTrack && testPrev && testNext) {
+          const cards = testTrack.querySelectorAll(".testimonial-card");
+
+          function getCardWidth() {
+            if (!cards.length) return 300;
+            const style = window.getComputedStyle(testTrack);
+            const gap = parseFloat(style.columnGap || style.gap || "0");
+            return cards[0].offsetWidth + (isNaN(gap) ? 0 : gap);
+          }
+
+          function scrollByCard(direction) {
+            const distance = getCardWidth() * direction;
+            testTrack.scrollBy({ left: distance, behavior: "smooth" });
+          }
+
+          testPrev.addEventListener("click", function () {
+            scrollByCard(-1);
           });
+
+          testNext.addEventListener("click", function () {
+            scrollByCard(1);
+          });
+
+          function handleResize() {
+            if (window.innerWidth >= 768) {
+              testPrev.classList.remove("hidden");
+              testNext.classList.remove("hidden");
+            } else {
+              testPrev.classList.add("hidden");
+              testNext.classList.add("hidden");
+            }
+          }
+
+          handleResize();
+          window.addEventListener("resize", handleResize);
+        }
+});
         }
 
         const hoursRange = document.getElementById("hoursRange");
